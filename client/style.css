@@ -1,0 +1,138 @@
+h1 {
+    color: #00bcd4;
+    text-align: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2c3e50; /* Darker background for contrast */
+    color: #ecf0f1; /* Soft light color for text */
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+    margin: auto;
+}
+
+#message-input,
+#description-input,
+#rating-input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    background-color: #bdc3c7;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+}
+
+.textarea-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #e67e22;
+    color: #ecf0f1;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    margin: 20px auto;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #d35400;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #34495e;
+    border-radius: 5px;
+}
+
+section {
+    text-align: center;
+}
+
+select {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    background-color: #bdc3c7;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.review-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #ecf0f1;
+}
+
+.review-header .rating {
+    font-size: 1.2em;
+    color: #f39c12;
+}
+
+.rating {
+    display: flex;
+}
+
+.rating ion-icon {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    margin-left: 5px;
+}
+
+.review-description {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.review-item {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #34495e;
+    border-radius: 5px;
+}
+
+#rating-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#rating-icon1,
+#rating-icon2,
+#rating-icon3,
+#rating-icon4,
+#rating-icon5 {
+    font-size: 1.5em;
+    color: #f39c12;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Review</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Game Reviews</h1>
+    <div class="textarea-wrapper">
+        <textarea id="message-input" placeholder="Enter game name" required></textarea>
+    </div>
+
+    <div class="textarea-wrapper">
+        <textarea id="description-input" placeholder="Enter description" required></textarea>
+    </div>
+
+    <div id="rating-container">
+        <ion-icon id="rating-icon1" name="star-outline"></ion-icon>
+        <ion-icon id="rating-icon2" name="star-outline"></ion-icon>
+        <ion-icon id="rating-icon3" name="star-outline"></ion-icon>
+        <ion-icon id="rating-icon4" name="star-outline"></ion-icon>
+        <ion-icon id="rating-icon5" name="star-outline"></ion-icon>
+        <select id="rating-input" required>
+            <option value="" disabled selected>Select rating</option>
+            <option value="1">1/5</option>
+            <option value="2">2/5</option>
+            <option value="3">3/5</option>
+            <option value="4">4/5</option>
+            <option value="5">5/5</option>
+        </select>
+    </div>
+    
+    <button id="add-message-button">Add Review</button>
+    <section>
+        <!-- add stuff -->
+    </section>
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
