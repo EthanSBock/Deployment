@@ -14,7 +14,7 @@ Attributes:
 
 ## Database Schema
 
-'''sql
+```sql
 CREATE TABLE games (
   id INTEGER PRIMARY KEY,
   gameName TEXT NOT NULL,
@@ -22,7 +22,8 @@ CREATE TABLE games (
   gamePlaytime REAL NOT NULL,
   rating INTEGER NOT NULL CHECK(rating >= 1 AND rating <= 5),
   description TEXT NOT NULL
-);'''
+);
+```
 
 
 ## REST Endpoints
