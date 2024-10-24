@@ -1,20 +1,79 @@
 console.log("connected");
 
-let gameReviewWrapper = document.querySelector("section")
+let gameReviewWrapper = document.querySelector("section");
+
+// Getting the element out of the boxes, just getting inputs
+let inputGame = document.querySelector("#game-input");
+let inputAuthor = document.querySelector("#author-input");
+let inputPlaytime = document.querySelector("#playtime-input");
+let inputRating = document.querySelector("#rating-input");
+let inputDesc = document.querySelector("#description-input");
+let saveReviewButton = document.querySelector("#save-message-button");
+
+//For changing between update and add
+let editId = null;
+
+function saveReview(){
+    console.log("save button clicked");
+    //prep data to send over to server
+    let data = "gameName=" + encodeURIComponent(inputGame.value);
+    data += "&authorName=" + encodeURIComponent(inputAuthor.value);
+    data += "&gamePlaytime=" + encodeURIComponent(inputPlaytime.value);
+    data += "&rating=" + encodeURIComponent(inputRating.value);
+    data += "&description=" + encodeURIComponent(inputDesc.value);
+    let corsMethod = "POST";
+    let URL = "http://localhost:8080/games";
+
+    if(editId){
+        corsMethod = "PUT";
+        URL = "http://localhost:8080/games/" + editId;
+    }
+
+    //send new review to the server
+    fetch(URL,{
+        method: corsMethod,
+        body: data,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    }).then(function(response){
+        console.log("New message created!", response)
+    
+        //clear for updated messages
+        gameReviewWrapper.textContent = "";
+    
+        //reload so the user doesn't have to
+        loadGameFromServer();
+    
+        //Reset Inputs
+        inputGame.value = "";
+        inputAuthor.value = "";
+        inputPlaytime.value = "";
+        inputRating.selectedIndex = 0; // Reset dropdown to default
+        inputDesc.value = "";
+    });
+}
+
+
 
 function addGameReview(data){
+    console.log("data", data)
     let reviewWrapper = document.createElement("div");
     reviewWrapper.classList.add("review-item");
 
     let reviewHeader = document.createElement("div");
     reviewHeader.classList.add("review-header");
 
-    let gameName = document.createElement("h3");
-    gameName.textContent = data.name;
-    reviewHeader.appendChild(gameName);
+    let game = document.createElement("h3");
+    game.textContent = data.gameName;
+    reviewHeader.appendChild(game);
+
+    // Author Name and Playtime
+    let authorAndPlaytime = document.createElement("span");
+    authorAndPlaytime.textContent = `AUTHOR: ${data.authorName}    (${data.gamePlaytime} hours)`;
+    reviewHeader.appendChild(authorAndPlaytime);
     
     let ratingGame = document.createElement("span");
-    //ratingGame.textContent = data.rating;
 
     let icon1 = document.createElement("ion-icon");
     let icon2 = document.createElement("ion-icon");
@@ -63,11 +122,58 @@ function addGameReview(data){
     
     reviewHeader.appendChild(ratingGame);
     reviewWrapper.appendChild(reviewHeader);
-    
+
     let descGame = document.createElement("p");
     descGame.textContent = data.description;
     descGame.classList.add("review-description");
     reviewWrapper.appendChild(descGame);
+
+    let actionContainer = document.createElement("div");
+actionContainer.classList.add("review-actions");
+
+    // EDIT BUTTON
+    let editButton = document.createElement("button");
+    editButton.textContent = "EDIT";
+    actionContainer.appendChild(editButton);
+
+    // DELETE BUTTON
+    let deleteButton = document.createElement("button");
+    deleteButton.textContent = "DELETE";
+    actionContainer.appendChild(deleteButton);
+
+    // Append actionContainer to the reviewWrapper
+    reviewWrapper.appendChild(actionContainer);
+
+
+    //Edit Button listener
+    editButton.onclick = function (){
+        console.log("game id:", data.id)
+        //grab text from textarea
+        inputGame.value = data.gameName;
+        inputAuthor.value = data.authorName;
+        inputPlaytime.value = data.gamePlaytime;
+        inputRating.value = data.rating;
+        updateRatingIcon();
+        inputDesc.value = data.description;
+        editId = data.id;
+    }
+
+    //DELETE Button listener
+    deleteButton.onclick = function (){
+        console.log("game id:", data.id)
+        //Confirm DELETION
+        if (confirm("Are you sure you want to delete this review?")) {
+            fetch("http://localhost:8080/games/" + data.id, {
+                method: "DELETE"
+            }).then(function (response) {
+                if (response.ok) {
+                    reviewWrapper.remove(); // Remove from DOM
+                }
+            });
+        }
+    }
+
+    
     gameReviewWrapper.appendChild(reviewWrapper);
 }
 
@@ -88,47 +194,12 @@ function loadGameFromServer(){
 let addMessageButton = document.querySelector("#add-message-button")
 function addNewReview(){
     console.log("button clicked");
-    
-    //grab text from textarea
-    let inputText = document.querySelector("#message-input");
-    console.log(inputText.value);
-    let inputText2 = document.querySelector("#description-input");
-    console.log(inputText2.value);
-    let inputText3 = document.querySelector("#rating-input");
-    console.log(inputText3.value);
-    
-    if (!inputText.value || !inputText2.value || !inputText3.value) {
-        alert("Please fill out all fields!");
-        return;
-    }
-
-
-    //prep data to send over to server
-    let data = "name=" + encodeURIComponent(inputText.value);
-    data += "&description=" + encodeURIComponent(inputText2.value);
-    data += "&rating=" + encodeURIComponent(inputText3.value);
-    
-    //send new review to the server
-    fetch("http://localhost:8080/games",{
-        method: "POST",
-        body: data,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    }).then(function(response){
-        console.log("New message created!", response)
-
-        //clear for updated messages
-        gameReviewWrapper.textContent = "";
-
-        //reload so the user doesn't have to
-        loadGameFromServer();
-
-        //Reset Inputs
-        inputText.value = "";
-        inputText2.value = "";
-        inputText3.selectedIndex = 0; // Reset dropdown to default
-    });
+    inputGame.value = "";
+    inputAuthor.value = "";
+    inputPlaytime.value = "";
+    inputRating.selectedIndex = 0; // Reset dropdown to default
+    inputDesc.value = "";
+    editId = null;
 }
 
 
@@ -195,4 +266,6 @@ function updateRatingIcon() {
 ratingSelect.addEventListener("change", updateRatingIcon);
 
 addMessageButton.onclick = addNewReview;
+saveReviewButton.onclick = saveReview;
+
 loadGameFromServer()
