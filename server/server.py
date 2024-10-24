@@ -23,6 +23,16 @@ def retrieve_games():
     return games, 200, {"Access-Control-Allow-Origin" : "*"}
 
 
+# Retrieve ONE game
+@app.route("/games/<int:game_id>", methods=["GET"])
+def retrieve_game(game_id):
+    print("Retrieving review with ID", game_id)
+    db = GameDB("games_db.db")
+    print("db",db)
+    games = db.getGame(game_id)
+    return games, 200, {"Access-Control-Allow-Origin" : "*"}
+
+
 @app.route("/games", methods=["POST"])
 def create_game():
     gameName = request.form["gameName"]

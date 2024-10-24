@@ -13,6 +13,18 @@ let saveReviewButton = document.querySelector("#save-message-button");
 //For changing between update and add
 let editId = null;
 
+
+// Adding a listener for playtime input validation
+inputPlaytime.addEventListener("input", function() {
+    // Regular expression for validating real numbers
+    const realNumberPattern = /^-?\d*\.?\d*$/;
+
+    // If the input doesn't match the pattern, remove the last character
+    if (!realNumberPattern.test(inputPlaytime.value)) {
+        inputPlaytime.value = inputPlaytime.value.slice(0, -1);
+    }
+});
+
 function saveReview(){
     console.log("save button clicked");
     //prep data to send over to server
@@ -68,11 +80,33 @@ function addGameReview(data){
     game.textContent = data.gameName;
     reviewHeader.appendChild(game);
 
+    // // Author Name and Playtime
+    // let authorAndPlaytime = document.createElement("span");
+    // authorAndPlaytime.textContent = `AUTHOR: ${data.authorName}    (${data.gamePlaytime} hours)`;
+    // reviewHeader.appendChild(authorAndPlaytime);
+    
+
+
     // Author Name and Playtime
     let authorAndPlaytime = document.createElement("span");
-    authorAndPlaytime.textContent = `AUTHOR: ${data.authorName}    (${data.gamePlaytime} hours)`;
+
+    // Create a span for the bold "AUTHOR" text
+    let authorBold = document.createElement("span");
+    authorBold.textContent = "AUTHOR: ";
+    authorBold.style.fontWeight = "bold"; // Make "AUTHOR" bold
+
+    // Add the rest of the text
+    let authorText = document.createTextNode(`${data.authorName} (${data.gamePlaytime} hours)`);
+
+    // Append both to the span
+    authorAndPlaytime.appendChild(authorBold);
+    authorAndPlaytime.appendChild(authorText);
+
     reviewHeader.appendChild(authorAndPlaytime);
-    
+
+
+
+
     let ratingGame = document.createElement("span");
 
     let icon1 = document.createElement("ion-icon");
