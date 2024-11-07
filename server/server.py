@@ -83,7 +83,7 @@ def method_not_allowed(e):
     return "405 Method Not Found. The requested Method is not allowed", 405
 
 def run():
-    app.run(port=8080)
+    app.run(port=8080, host='0.0.0.0')
 
 if __name__ == "__main__":
     run()

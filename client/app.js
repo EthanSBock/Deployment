@@ -1,5 +1,10 @@
 console.log("connected");
 
+
+const apiUrl = window.location.protocol === 'file:'
+    ? 'http:localhost:8080'
+    : '';
+
 let gameReviewWrapper = document.querySelector("section");
 
 // Getting the element out of the boxes, just getting inputs
