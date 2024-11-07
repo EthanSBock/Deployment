@@ -2,7 +2,7 @@ console.log("connected");
 
 
 const apiUrl = window.location.protocol === 'file:'
-    ? 'http:localhost:8080'
+    ? 'http://localhost:8080'
     : '';
 
 let gameReviewWrapper = document.querySelector("section");
@@ -39,11 +39,11 @@ function saveReview(){
     data += "&rating=" + encodeURIComponent(inputRating.value);
     data += "&description=" + encodeURIComponent(inputDesc.value);
     let corsMethod = "POST";
-    let URL = "http://localhost:8080/games";
+    let URL = apiUrl + "/games";
 
     if(editId){
         corsMethod = "PUT";
-        URL = "http://localhost:8080/games/" + editId;
+        URL = apiUrl + "/games/" + editId;
     }
 
     //send new review to the server
@@ -202,7 +202,7 @@ actionContainer.classList.add("review-actions");
         console.log("game id:", data.id)
         //Confirm DELETION
         if (confirm("Are you sure you want to delete this review?")) {
-            fetch("http://localhost:8080/games/" + data.id, {
+            fetch(apiUrl + "/games/" + data.id, {
                 method: "DELETE"
             }).then(function (response) {
                 if (response.ok) {
@@ -218,7 +218,7 @@ actionContainer.classList.add("review-actions");
 
 
 function loadGameFromServer(){
-    fetch("http://localhost:8080/games")
+    fetch(apiUrl + "/games")
     .then(function(response){
         response.json()
             .then(function(data){
